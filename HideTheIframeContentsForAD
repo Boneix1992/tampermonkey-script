@@ -1,0 +1,32 @@
+// ==UserScript==
+// @name         Hide the iframe contents
+// @namespace    http://tampermonkey.net/
+// @version      0.2
+// @description  try to take over the world!
+// @author       Boneix
+// @match        *://*/*
+// @exclude      https://*.baidu.com/*
+// @grant        none
+// @require      https://code.jquery.com/jquery-2.1.4.min.js
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Your code here...
+    if(window.top == window.self){
+        console.log('加载控制div');
+        $("body:first").append("<div id='content_iframe'><button id='close_iframe' >关闭iframe</button></div>");
+        console.log('加载样式表');
+        $("#content_iframe").css({"position":"fixed","right":"10px","bottom":"10px","z-index":"9999"});
+        console.log('定义事件');
+        $('#close_iframe').click(function(){
+            if($('iframe').length > 0) {
+                console.log('检测到有iframe标签，即将清空内容');
+                $('iframe').detach()
+                console.log('检测到有iframe标签，清空内容结束');
+                $("#content_iframe").css("display","none");
+            }
+        })
+    }
+})();
